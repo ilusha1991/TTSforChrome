@@ -1,0 +1,23 @@
+{
+  "name": "chrome-tts",
+  "version": "1.0.0",
+  "description": "extention for chrome, to do proper tts",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "later..."
+  },
+  "keywords": [
+    "tts",
+    "extention",
+    "accessability"
+  ],
+  "author": "eli aki",
+  "license": "ISC",
+  "dependencies": {
+    "event-emitter": "^0.3.4"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "TTS",
+  "version": "0.0.5",
+
+  "description": "TTS reader",
+  "icons": { "16": "megaphone.png",
+           "48": "megaphone.png",
+          "128": "megaphone.png"},
+  "permissions": ["storage","tts"],
+  "author": "Eli",
+  "content_scripts": [{
+    "matches": ["*://*/*"],
+    "js": ["bundle.js"],
+    "css": ["main.css"]
+  }],
+  "incognito": "split",
+  "browser_action": {
+    "default_title": "TTS",      // optional; shown in tooltip
+    "default_popup": "popup.html"        // not working yet!
+  }
+}
