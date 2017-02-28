@@ -42,10 +42,7 @@ function Tts() {
                 utterance.onend=function () {
                     thisTTS.playing=false;
                     thisTTS.eject();
-
                 };
-
-
                 utterance.onboundary = function (e) {
                     emitter.emit('index',e.charIndex);
                 };
@@ -55,17 +52,13 @@ function Tts() {
     };
 
     this.inject = function (element) {
-        //this.target.parent().append('<div class="tts">'+element+'</div>');
-        //this.target.hide();
         var overlay = $('<div class="ttsoverlay"> ' + element+' </div>');
         overlay.appendTo(document.body)
 
     };
     this.eject = function () {
-        $('.ttsoverlay').hide();
+        $('.ttsoverlay').remove();
         this.counter = 0;
-        //this.target.parent().hide('.tts');
-        //this.target.show();
     };
 
     this.play = function () {
@@ -77,7 +70,6 @@ function Tts() {
     };
     this.stop = function () {
         this.eject();
-        console.log(this);
         window.speechSynthesis.cancel();
         thisTTS.playing = false;
     };
@@ -104,10 +96,11 @@ function Tts() {
         var sIndex = fullElText.indexOf(selectedText);
         var eIndex = sIndex+selectedText.length;
 
-        var split = selectedText.split(/[ ,]+/);
+        var split = selectedText.splitWithIndex(/[ .]+/);
+        //console.log(split);
         var marked = "";
         for (var i = 0 ; i<split.length ; i++ ){
-            marked += "<span class='w" +i+"'>"+split[i]+" </span>" ;
+            marked += "<span class='w" +split[i][0]+"'>"+split[i][1]+" </span>" ;
         }
         result = fullElText.slice(0,sIndex) + marked +
             fullElText.slice(eIndex);
@@ -121,19 +114,19 @@ $(document).ready(function () {
 
 
     emitter.on('index', listener = function (index) {
-        console.log(index);
-        $('.w'+player.counter)
+        var selector=".w0";
+        for (var i=1;i<=index;i++) {
+            selector += " , .w" + i;
+        }
+        console.log(selector);
+        $(selector)
             .css("background-color","#f7e50a")
             .css("text-decoration", "underline");
-        //$('.w'+counter--).css("background-color","white");
-        player.counter++;
     });
 
 
 
     $(document).click(function (event) {
-        //window.speechSynthesis.cancel();
-
         if (window.getSelection) {
             toBeSpoken = window.getSelection().toString();
         } else if (document.selection && document.selection.type != "Control") {
@@ -145,9 +138,8 @@ $(document).ready(function () {
 
 
 
-    }).keypress(function (event) {
-        //console.log(event)
-        if (event.key === "S") {
+    }).keydown(function (e) {
+        if (e.keyCode == 83 && e.altKey) {
             if (player.isPlaying()) {
                 player.stop();
             } else {
@@ -155,17 +147,28 @@ $(document).ready(function () {
                     player.play();
                 }
             }
-        } else if (event.key === "D") {
+        } else if (e.keyCode == 68 && e.altKey) {
             if (player.isPlaying()) {
                 player.pause();
             } else {
                 player.resume();
             }
-        } else if (event.key === "+") {
+        } else if (e.keyCode == 187 && e.altKey) {
             player.goFaster();
-        } else if (event.key === "_") {
+        } else if (e.keyCode == 189 && e.altKey) {
             player.goSlower();
         }
     });
 
 });
+
+String.prototype.splitWithIndex=function(delim){
+    var ret=[];
+    var splits=this.split(delim);
+    var index=0;
+    for(var i=0;i<splits.length;i++){
+        ret.push([index,splits[i]]);
+        index+=splits[i].length+1;
+    }
+    return ret;
+};
