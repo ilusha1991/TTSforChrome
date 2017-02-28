@@ -20,7 +20,8 @@
   "dependencies": {
     "country-language": "^0.1.7",
     "event-emitter": "^0.3.4",
-    "franc": "^2.0.0"
+    "franc": "^2.0.0",
+    "jquery": "^3.1.1"
   },
   "devDependencies": {
     "browserify": "^14.1.0"
