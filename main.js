@@ -139,7 +139,7 @@ $(document).ready(function () {
 
 
     }).keydown(function (e) {
-        if (e.keyCode == 83 && e.altKey) {
+        if (e.keyCode == 84 && e.altKey) {
             if (player.isPlaying()) {
                 player.stop();
             } else {

@@ -4,6 +4,12 @@ ehthumbs.db
 *.zip
 node_modules
 
+# IntelliJ
+.idea
+
+# Build
+bundle.js
+
 # Folder config file
 Desktop.ini
 
